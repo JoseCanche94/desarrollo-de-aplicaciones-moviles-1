@@ -1,0 +1,67 @@
+package com.example.banco_movil
+
+import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import java.util.*
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Obtener la hora actual
+        val cal = Calendar.getInstance()
+        val hora = cal.get(Calendar.HOUR_OF_DAY)
+
+        // Determinar si es de día o de tarde
+        val textViewSaludo = findViewById<TextView>(R.id.Saludo)
+        textViewSaludo.text = when (hora) {
+            in 0..11 -> "Buenos días"
+            in 12..17 -> "Buenas tardes"
+            else -> "Buenas noches"
+        }
+
+        // Asignar el listener al botón Acceso
+        val btnAcceso = findViewById<Button>(R.id.Acceso)
+        btnAcceso.setOnClickListener {
+            // Mostrar el diálogo de alerta utilizando la función de extensión
+            showAlertDialog("Registro Correcto", "¡Bienvenido! Te has registrado correctamente.")
+        }
+
+        // Obtener la instancia del botón "entrar"
+        val buttonEntrar = findViewById<Button>(R.id.entrar)
+        // Configurar el OnClickListener para el botón "entrar"
+        buttonEntrar.setOnClickListener {
+            // Crear una alerta de diálogo
+            val alertDialogBuilder = AlertDialog.Builder(this)
+            alertDialogBuilder.apply {
+                setTitle("Acceso Correcto")
+                setMessage("¡Has accedido correctamente!")
+                setPositiveButton("Aceptar") { dialog, _ ->
+                    dialog.dismiss() // Cerrar el diálogo cuando se hace clic en Aceptar
+                }
+            }
+            // Mostrar la alerta de diálogo
+            val alertDialog = alertDialogBuilder.create()
+            alertDialog.show()
+        }
+    }
+
+    // Función de extensión para mostrar el diálogo de alerta
+    private fun AppCompatActivity.showAlertDialog(title: String, message: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(title)
+        builder.setMessage(message)
+        builder.setPositiveButton("Aceptar", null)
+        // Mostrar el diálogo
+        val alertDialog = builder.create()
+        alertDialog.show()
+    }
+}
+
+
+
